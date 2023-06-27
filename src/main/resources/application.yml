@@ -1,0 +1,17 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: spring-app
+            authorization-grant-type: password
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8082/realms/my-demo
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8082/realms/my-demo
+          jwk-set-uri: http://localhost:8082/realms/my-demo/protocol/openid-connect/certs
