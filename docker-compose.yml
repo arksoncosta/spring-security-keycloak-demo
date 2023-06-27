@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /home/arkson/dev/docker/postgres :/var/lib/postgresql/data
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev
+    ports:
+      - "8082:8080"
+    networks:
+      - keycloak-compose-network
+    depends_on:
+        - postgres
+
+volumes:
+  postgres_data:
+      driver: local
+
+networks:
+  keycloak-compose-network:
+    driver: bridge
